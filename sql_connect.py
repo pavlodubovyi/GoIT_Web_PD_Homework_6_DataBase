@@ -7,7 +7,7 @@ database = "./test.db"
 @contextmanager
 def create_connection():
     try:
-        """create a database connection to a SQLite database"""
+        """create a database connection to a SQL database"""
         conn = psycopg2.connect(host="localhost", database="test", user="postgres", password="567234")
         yield conn
         conn.close()
