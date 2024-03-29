@@ -1,30 +1,27 @@
 import logging
 
 from psycopg2 import DatabaseError
-from sql_connect import create_connection
+from connect_to_sql import create_connection
 
 if __name__ == '__main__':
-    sql_expression_01 = """
-        SELECT * FROM users WHERE id = %s;
+    sql_expression_from_query = """
+        SELECT 
+            s.id, 
+            s.fullname, 
+            ROUND(AVG(g.grade), 2) AS average_grade
+        FROM students s
+        JOIN grades g ON s.id = g.student_id
+        GROUP BY s.id
+        ORDER BY average_grade DESC
+        LIMIT 5;
         """
-    sql_expression_02 = """
-        SELECT id, name, email, age 
-        FROM users 
-        WHERE age >= 27 AND age <= 60
-        ORDER BY age desc
-        LIMIT 15;
-        """
-
     try:
         with create_connection() as conn:
-            if conn is not None:
+            if conn:
                 cur = conn.cursor()
                 try:
-                    cur.execute(sql_expression_01, (7,))
-                    print(cur.fetchone())
-                    cur.execute(sql_expression_02)
-                    result = cur.fetchall()
-                    print(result)
+                    cur.execute(sql_expression_from_query)
+                    print(cur.fetchall())
                 except DatabaseError as e:
                     logging.error(e)
                 finally:

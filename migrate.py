@@ -1,6 +1,6 @@
 import logging
 from psycopg2 import DatabaseError
-from sql_connect import create_connection
+from connect_to_sql import create_connection
 
 
 def migrate(conn, sql_expression: str):
