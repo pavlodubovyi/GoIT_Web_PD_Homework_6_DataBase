@@ -1,3 +1,4 @@
+-- Знайти студента із найвищим середнім балом з певного предмета
 -- 1) Run the following script in SQL console for test database OR
 -- 2) Copy-Paste the following script in "select.py" after "sql_expression_from_query = """
 
